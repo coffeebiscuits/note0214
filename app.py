@@ -48,9 +48,9 @@ def chat_with_llm(user_input, additional_info=None):
     return reply_text
 
 def main():
-    st.set_page_config(page_title="프리스토시스 one")
-    st.title("프리스토시스 One")
-    st.write("금융 관련 질문을 입력하세요. 주가, 환율, 가상화폐, 금리 정보 등을 제공합니다.")
+    st.set_page_config(page_title="테스트")
+    st.title("테스트")
+    st.write("테스트")
 
     # 대화 기록 초기화
     if "conversation_history" not in st.session_state:
