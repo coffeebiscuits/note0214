@@ -20,7 +20,7 @@ current_datetime = datetime.now(timezone).strftime('%Y-%m-%d %H:%M:%S %A')
 
 
 # 메인 LLM 호출 함수
-def main_task_llm(user_input, additional_info=None):
+def chat_with_llm(user_input, additional_info=None):
     # 기본 시스템 메시지 구성
     base_system_content = (
         f"Here is the current time: {current_datetime}\n "
