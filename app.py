@@ -48,7 +48,7 @@ def chat_with_llm(user_input, additional_info=None):
     return reply_text
 
 def main():
-    st.set_page_config(page_title="테스트")
+    st.set_page_config(page_title="테스트입니다.")
     st.title("테스트")
     st.write("테스트")
 
