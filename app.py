@@ -39,7 +39,7 @@ def chat_with_llm(user_input, additional_info=None):
             {"role": "system", "content": base_system_content},  # 시스템 메시지
             {"role": "user", "content": user_input}  # 사용자 입력
         ],
-        max_tokens=500
+        max_tokens=1000
     )
 
     # 응답에서 텍스트 추출
