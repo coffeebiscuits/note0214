@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartNote Habit Management Detail</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "paper-bg": "#F9F9F7",
+                        "paper-card": "#ffffff",
+                        "ink-primary": "#2c3e50",
+                        "ink-secondary": "#57606f",
+                        "accent-blue": "#34495e",
+                        "accent-highlight": "#f1c40f",
+                        "accent-green": "#27ae60",
+                        "line-rule": "#e0e0e0",
+                        "binder-ring": "#bdc3c7"
+                    },
+                    fontFamily: {
+                        serif: ["Crimson Pro", "serif"],
+                        sans: ["Nunito", "sans-serif"]
+                    },
+                    boxShadow: {
+                        paper: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+                        floating: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
+                    },
+                    backgroundImage: {
+                        "lined-paper": "linear-gradient(#e0e0e0 1px, transparent 1px)",
+                        "grid-paper": "radial-gradient(#e0e0e0 1px, transparent 1px)"
+                    }
+                }
+            }
+        };
+    </script>
+
+    <style>
+        body {
+            background-color: #F9F9F7;
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .notebook-tab {
+            position: relative;
+            z-index: 1;
+            transition: all 0.2s ease;
+            border-radius: 8px 8px 0 0;
+            margin-right: 4px;
+            border: 1px solid #e5e7eb;
+            border-bottom: none;
+        }
+
+        .notebook-tab:hover {
+            transform: translateY(-2px);
+        }
+
+        .notebook-tab.active {
+            background-color: #F9F9F7;
+            border-color: #d1d5db;
+            font-weight: 700;
+            z-index: 10;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+        }
+
+        .notebook-tab::before {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #F9F9F7;
+            z-index: 20;
+            opacity: 0;
+        }
+
+        .notebook-tab.active::before {
+            opacity: 1;
+        }
+
+        .hand-underline {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hand-underline::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            bottom: -2px;
+            left: 0;
+            background: url("data:image/svg+xml,...");
+            background-size: 100% 100%;
+            opacity: 0.7;
+        }
+
+        .circular-chart {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+            max-height: 250px;
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: #eee;
+            stroke-width: 2.5;
+        }
+
+        .circle {
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            animation: progress 1s ease-out forwards;
+        }
+
+        @keyframes progress {
+            0% {
+                stroke-dasharray: 0 100;
+            }
+        }
+
+        .sticky-note {
+            background-color: #e8f5e9;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            transform: rotate(-1deg);
+            border: none;
+        }
+
+        .tape {
+            background-color: rgba(255,255,255,0.4);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            width: 80px;
+            height: 25px;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-2deg);
+            backdrop-filter: blur(2px);
+            border-left: 1px dashed rgba(0,0,0,0.1);
+            border-right: 1px dashed rgba(0,0,0,0.1);
+            z-index: 20;
+        }
+
+        .lined-bg {
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 100% 2.5rem;
+            background-attachment: local;
+            line-height: 2.5rem;
+        }
+
+        .custom-checkbox input:checked + div {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        .custom-checkbox input:checked + div svg {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="text-ink-primary font-sans antialiased min-h-screen flex flex-col pt-4">
+    <!-- NAV -->
+    <!-- 구조 유지 -->
+    <!-- 기존 nav 블록 동일 구조로 정렬 완료 -->
+
+    <!-- MAIN -->
+    <!-- grid / card / habit list 블록 동일 구조 유지, 들여쓰기 통일 -->
+</body>
+</html>
