@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartNote Focus Management</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet"
+    />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <style type="text/tailwindcss">
+        :root {
+            --paper-bg: #F9F9F7;
+            --ink-primary: #2c3e50;
+            --ink-secondary: #57606f;
+            --accent-highlight: #f1c40f;
+            --line-rule: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--paper-bg);
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        .notebook-tab {
+            position: relative;
+            z-index: 1;
+            transition: all 0.2s ease;
+            border-radius: 8px 8px 0 0;
+            margin-right: 4px;
+            border: 1px solid #e5e7eb;
+            border-bottom: none;
+        }
+
+        .notebook-tab.active {
+            background-color: #F9F9F7;
+            border-color: #d1d5db;
+            font-weight: 700;
+            z-index: 10;
+        }
+
+        .lined-page {
+            background-image: repeating-linear-gradient(
+                transparent,
+                transparent 31px,
+                var(--line-rule) 31px,
+                var(--line-rule) 32px
+            );
+            background-attachment: local;
+            line-height: 32px;
+        }
+
+        .timer-circle-svg {
+            transform: rotate(-90deg);
+        }
+
+        .notebook-margin {
+            border-left: 2px solid rgba(239, 68, 68, 0.2);
+            margin-left: 40px;
+            padding-left: 20px;
+        }
+    </style>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "paper-bg": "#F9F9F7",
+                        "ink-primary": "#2c3e50",
+                        "ink-secondary": "#57606f",
+                    },
+                    fontFamily: {
+                        serif: ["Crimson Pro", "serif"],
+                        sans: ["Nunito", "sans-serif"],
+                    },
+                    boxShadow: {
+                        paper: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="text-ink-primary font-sans antialiased min-h-screen flex flex-col pt-4">
+
+    <!-- NAV -->
+    <nav class="sticky top-0 z-50 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between border-b border-gray-300 bg-white/80 backdrop-blur-sm rounded-t-lg shadow-sm px-4 pt-4">
+
+            <div class="flex items-end gap-8 w-full">
+
+                <div class="flex-shrink-0 flex items-center gap-2 pb-3 mr-4">
+                    <span class="material-symbols-outlined text-3xl text-ink-primary">
+                        menu_book
+                    </span>
+                    <span class="font-serif font-bold text-2xl text-ink-primary tracking-tight">
+                        SmartNote
+                    </span>
+                </div>
+
+                <div class="hidden md:flex flex-grow items-end h-full">
+
+                    <a
+                        href="#"
+                        class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50"
+                    >
+                        Dashboard
+                    </a>
+
+                    <a
+                        href="#"
+                        class="notebook-tab active px-6 py-3 text-base font-serif text-ink-primary bg-white"
+                    >
+                        Focus Mode
+                    </a>
+
+                    <a
+                        href="#"
+                        class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50"
+                    >
+                        Journal
+                    </a>
+
+                    <a
+                        href="#"
+                        class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50"
+                    >
+                        Planner
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 pb-3">
+
+                <button class="text-ink-secondary hover:text-ink-primary transition-colors relative">
+                    <span class="material-symbols-outlined">notifications</span>
+                    <span class="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-400"></span>
+                </button>
+
+                <div class="flex items-center gap-3 pl-4 border-l border-gray-300">
+
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-serif font-bold text-ink-primary">
+                            Alex Morgan
+                        </p>
+                        <p class="text-xs text-ink-secondary italic">
+                            Digital Minimalist
+                        </p>
+                    </div>
+
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYnSWWqy1FHp1cixWM-DV2FOfAhKOgmR-I0kWDvKDHacfMUY2id5XGV2aguUpw-bkPt140_y_JOzQLtLODsHnAxNVLWwx6MJ6oV6fMrhpclIcVlHuiwAnpdOfTYjelTAJsfopJgzCAuC1PWvHPe-i_HO3gqY73Wu7T0LVCB4-X__wwxeSQXy_dAowmJQAFlxPgslaquryE5aF8NIojAj6fYEqP3pkMhfX_y4oQEAVppZihvVjU7KHI15M_K69xMw5fmTQ_2jZdm4Q"
+                        alt="User profile picture"
+                        class="h-9 w-9 rounded-full ring-2 ring-gray-200 object-cover sepia-[.2]"
+                    />
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full bg-paper-bg shadow-xl min-h-[calc(100vh-80px)] border-x border-gray-200 relative overflow-hidden">
+
+        <div class="max-w-4xl mx-auto">
+
+            <header class="mb-12 text-center">
+                <h1 class="text-5xl font-serif font-bold text-ink-primary">
+                    Focus Session
+                </h1>
+                <p class="mt-3 text-ink-secondary font-serif text-xl italic">
+                    "Concentrate all your thoughts upon the work at hand."
+                </p>
+            </header>
+
+            <!-- Timer Section -->
+            <section class="flex flex-col items-center mb-16">
+
+                <div class="relative w-80 h-80 flex items-center justify-center">
+                    <svg class="timer-circle-svg w-full h-full" viewBox="0 0 100 100">
+                        <circle
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            fill="none"
+                            stroke-width="2"
+                            class="stroke-gray-200"
+                        ></circle>
+
+                        <circle
+                            cx="50"
+                            cy="50"
+                            r="45"
+                            fill="none"
+                            stroke-width="2.5"
+                            stroke-dasharray="282.7"
+                            stroke-dashoffset="70"
+                            stroke-linecap="round"
+                            class="stroke-ink-primary"
+                        ></circle>
+                    </svg>
+
+                    <div class="absolute text-center">
+                        <span class="text-7xl font-serif font-bold text-ink-primary tracking-tight">
+                            25:00
+                        </span>
+                        <p class="text-ink-secondary font-serif italic mt-1 uppercase tracking-widest text-xs">
+                            Stay Mindful
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-12 flex gap-6">
+                    <button class="px-10 py-4 bg-ink-primary text-white font-serif font-bold text-lg rounded-full shadow-lg hover:bg-gray-800 hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                        <span class="material-symbols-outlined">play_arrow</span>
+                        Start Focus
+                    </button>
+
+                    <button class="px-10 py-4 bg-white border-2 border-gray-200 text-ink-secondary font-serif font-bold text-lg rounded-full shadow-sm hover:border-gray-400 hover:text-ink-primary hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                        <span class="material-symbols-outlined">replay</span>
+                        Reset
+                    </button>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 text-center text-ink-secondary font-serif italic">
+        <p>© 2024 SmartNote • Crafted for Focus</p>
+    </footer>
+</body>
+</html>
