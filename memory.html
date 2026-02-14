@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>SmartNote Memories Journal</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "paper-bg": "#F9F9F7",
+            "paper-card": "#ffffff",
+            "ink-primary": "#2c3e50",
+            "ink-secondary": "#57606f",
+            "accent-blue": "#34495e",
+            "accent-highlight": "#f1c40f",
+            "line-rule": "#e0e0e0",
+            "binder-ring": "#bdc3c7",
+            "emerald-focus": "#10b981",
+          },
+          fontFamily: {
+            "serif": ["Crimson Pro", "serif"],
+            "sans": ["Nunito", "sans-serif"]
+          },
+          boxShadow: {
+            "paper": "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+            "floating": "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+            "polaroid": "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          },
+          backgroundImage: {
+            "lined-paper": "repeating-linear-gradient(transparent, transparent 31px, #e0e0e0 32px)",
+            "grid-paper": "radial-gradient(#e0e0e0 1px, transparent 1px)"
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F9F9F7;
+      background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .notebook-tab {
+      position: relative;
+      z-index: 1;
+      transition: all 0.2s ease;
+      border-radius: 8px 8px 0 0;
+      margin-right: 4px;
+      border: 1px solid #e5e7eb;
+      border-bottom: none;
+    }
+    .notebook-tab:hover {
+      transform: translateY(-2px);
+    }
+    .notebook-tab.active {
+      background-color: #F9F9F7;
+      border-color: #d1d5db;
+      font-weight: 700;
+      z-index: 10;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    }
+    .notebook-tab::before {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #F9F9F7;
+      z-index: 20;
+      opacity: 0;
+    }
+    .notebook-tab.active::before {
+      opacity: 1;
+    }
+    .hand-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .hand-underline::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      bottom: -2px;
+      left: 0;
+      background: url("data:image/svg+xml,%3Csvg width='100' height='5' viewBox='0 0 100 5' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2C25 4 50 1 98 3' stroke='%23f1c40f' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 100% 100%;
+      opacity: 0.7;
+    }
+    .sticky-note {
+      background-color: #fffaac;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+      transform: rotate(-1deg);
+      border: none;
+    }
+    .tape {
+      background-color: rgba(255, 255, 255, 0.4);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      width: 80px;
+      height: 25px;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      backdrop-filter: blur(2px);
+      border-left: 1px dashed rgba(0,0,0,0.1);
+      border-right: 1px dashed rgba(0,0,0,0.1);
+      z-index: 20;
+    }
+    .lined-textarea {
+      background-image: repeating-linear-gradient(transparent, transparent 31px, #e5e7eb 32px);
+      background-attachment: local;
+      line-height: 32px;
+      padding-top: 6px;
+    }
+    .polaroid-card {
+      background: white;
+      padding: 1rem 1rem 2.5rem 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .polaroid-card:hover {
+      transform: scale(1.02) rotate(1deg);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      z-index: 10;
+    }
+    .pin {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #e74c3c;
+      box-shadow: inset -2px -2px 2px rgba(0,0,0,0.2), 1px 1px 2px rgba(0,0,0,0.3);
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+    }
+    .polaroid-date {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.75rem;
+      color: #7f8c8d;
+      margin-top: 0.5rem;
+      display: block;
+      text-align: right;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .toast-notification {
+      animation: slideIn 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    }
+  </style>
+</head>
+<body class="text-ink-primary font-sans antialiased min-h-screen flex flex-col pt-4">
+  <div class="fixed top-24 right-6 z-[60] toast-notification">
+    <div class="bg-white border border-emerald-200 rounded-lg shadow-floating p-4 flex items-center gap-3">
+      <div class="bg-emerald-100 text-emerald-600 rounded-full p-1">
+        <span class="material-symbols-outlined text-xl">check</span>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm text-ink-primary font-serif">Success</h4>
+        <p class="text-xs text-ink-secondary">Memory saved to your journal!</p>
+      </div>
+      <button class="text-gray-400 hover:text-gray-600 ml-2">
+        <span class="material-symbols-outlined text-sm">close</span>
+      </button>
+    </div>
+  </div>
+  <nav class="sticky top-0 z-50 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between border-b border-gray-300 bg-white/80 backdrop-blur-sm rounded-t-lg shadow-sm px-4 pt-4">
+      <div class="flex items-end gap-8 w-full">
+        <div class="flex-shrink-0 flex items-center gap-2 pb-3 mr-4">
+          <span class="material-symbols-outlined text-3xl text-ink-primary">menu_book</span>
+          <span class="font-serif font-bold text-2xl text-ink-primary tracking-tight">SmartNote</span>
+        </div>
+        <div class="hidden md:flex flex-grow items-end h-full">
+          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="#">
+            Dashboard
+          </a>
+          <a class="notebook-tab active px-6 py-3 text-base font-serif text-ink-primary bg-white" href="#">
+            Journal
+          </a>
+          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="#">
+            Planner
+          </a>
+          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="#">
+            Archives
+          </a>
+        </div>
+      </div>
+      <div class="flex items-center gap-4 pb-3">
+        <button class="text-ink-secondary hover:text-ink-primary transition-colors relative">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-400"></span>
+        </button>
+        <div class="flex items-center gap-3 pl-4 border-l border-gray-300">
+          <div class="text-right hidden sm:block">
+            <p class="text-sm font-serif font-bold text-ink-primary">Alex Morgan</p>
+            <p class="text-xs text-ink-secondary italic">Digital Minimalist</p>
+          </div>
+          <img alt="User profile picture" class="h-9 w-9 rounded-full ring-2 ring-gray-200 object-cover sepia-[.2]" data-alt="User profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYnSWWqy1FHp1cixWM-DV2FOfAhKOgmR-I0kWDvKDHacfMUY2id5XGV2aguUpw-bkPt140_y_JOzQLtLODsHnAxNVLWwx6MJ6oV6fMrhpclIcVlHuiwAnpdOfTYjelTAJsfopJgzCAuC1PWvHPe-i_HO3gqY73Wu7T0LVCB4-X__wwxeSQXy_dAowmJQAFlxPgslaquryE5aF8NIojAj6fYEqP3pkMhfX_y4oQEAVppZihvVjU7KHI15M_K69xMw5fmTQ_2jZdm4Q" />
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full bg-paper-bg shadow-xl min-h-[calc(100vh-80px)] border-x border-gray-200 relative">
+    <div class="absolute left-0 top-0 bottom-0 w-8 flex flex-col justify-evenly py-4 opacity-50 pointer-events-none hidden lg:flex">
+      <div class="w-4 h-12 border-2 border-l-0 border-gray-400 rounded-r-full bg-gradient-to-b from-gray-200 to-gray-400 -ml-2 shadow-sm"></div>
+      <div class="w-4 h-12 border-2 border-l-0 border-gray-400 rounded-r-full bg-gradient-to-b from-gray-200 to-gray-400 -ml-2 shadow-sm"></div>
+      <div class="w-4 h-12 border-2 border-l-0 border-gray-400 rounded-r-full bg-gradient-to-b from-gray-200 to-gray-400 -ml-2 shadow-sm"></div>
+      <div class="w-4 h-12 border-2 border-l-0 border-gray-400 rounded-r-full bg-gradient-to-b from-gray-200 to-gray-400 -ml-2 shadow-sm"></div>
+      <div class="w-4 h-12 border-2 border-l-0 border-gray-400 rounded-r-full bg-gradient-to-b from-gray-200 to-gray-400 -ml-2 shadow-sm"></div>
+      <div class="w-4 h-12 border-2 border-l-0 border-gray-400 rounded-r-full bg-gradient-to-b from-gray-200 to-gray-400 -ml-2 shadow-sm"></div>
+    </div>
+    <div class="pl-4 lg:pl-10 pr-2">
+      <section class="mb-12">
+        <div class="bg-white rounded-sm shadow-paper border border-gray-200 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100"></div>
+          <div class="p-8">
+            <div class="flex justify-between items-center mb-6">
+              <h2 class="text-3xl font-serif font-bold text-ink-primary">New Memory</h2>
+              <span class="text-sm text-ink-secondary italic font-serif" id="current-date">October 24, 2023</span>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8">
+              <div class="w-full md:w-3/4">
+                <label class="block text-sm font-bold text-ink-secondary uppercase tracking-widest mb-2 font-sans">What's on your mind?</label>
+                <textarea class="w-full min-h-[160px] lined-textarea border border-gray-300 rounded-md focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50 text-lg font-serif text-ink-primary resize-none p-4" placeholder="Start writing here..."></textarea>
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <input class="px-3 py-1 text-sm border border-gray-300 rounded-full focus:outline-none focus:border-emerald-500 font-serif text-ink-secondary bg-transparent w-32" placeholder="+ Add tag" type="text" />
+                  <span class="px-3 py-1 bg-gray-100 rounded-full text-sm text-ink-secondary font-serif border border-gray-200 cursor-pointer hover:bg-gray-200 transition-colors">#reflection</span>
+                  <span class="px-3 py-1 bg-gray-100 rounded-full text-sm text-ink-secondary font-serif border border-gray-200 cursor-pointer hover:bg-gray-200 transition-colors">#work</span>
+                  <span class="px-3 py-1 bg-gray-100 rounded-full text-sm text-ink-secondary font-serif border border-gray-200 cursor-pointer hover:bg-gray-200 transition-colors">#gratitude</span>
+                </div>
+              </div>
+              <div class="w-full md:w-1/4 flex flex-col gap-4 border-l border-gray-100 md:pl-6 pt-2">
+                <div class="h-32 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:text-emerald-600 hover:border-emerald-300 hover:bg-emerald-50 transition-all cursor-pointer group">
+                  <span class="material-symbols-outlined text-3xl mb-1 group-hover:scale-110 transition-transform">add_a_photo</span>
+                  <span class="text-xs font-bold uppercase tracking-wide">Add Photo</span>
+                </div>
+                <div class="mt-auto">
+                  <button class="w-full py-3 bg-ink-primary hover:bg-accent-blue text-white rounded-lg shadow-md hover:shadow-lg transition-all font-serif font-bold text-lg flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">save</span>
+                    Save Memory
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section>
+        <div class="flex items-center justify-between mb-8 border-b-2 border-gray-200 pb-4">
+          <h3 class="text-2xl font-serif font-bold text-ink-primary">Memory Gallery</h3>
+          <div class="flex gap-2">
+            <button class="p-2 text-ink-secondary hover:text-ink-primary hover:bg-gray-100 rounded transition-colors">
+              <span class="material-symbols-outlined">grid_view</span>
+            </button>
+            <button class="p-2 text-gray-400 hover:text-ink-primary hover:bg-gray-100 rounded transition-colors">
+              <span class="material-symbols-outlined">view_list</span>
+            </button>
+            <button class="p-2 text-gray-400 hover:text-ink-primary hover:bg-gray-100 rounded transition-colors">
+              <span class="material-symbols-outlined">calendar_month</span>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div class="relative pt-4">
+            <div class="pin"></div>
+            <div class="polaroid-card transform rotate-[-2deg]">
+              <div class="aspect-square bg-gray-100 mb-3 overflow-hidden border border-gray-200">
+                <img alt="Coding Setup" class="w-full h-full object-cover sepia-[.3] contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCh7V_UMByDBFRMGLefAbvOIyDX2tWi84aBBlcVb-cRI6KLAdVPyTbtrpDuIlK7yjg7syfYwgLndbXeu1LuSsKIZ3lcF8uIdFKecNlaTP7gt7SpgVKsBdFbN8v7M4LXN0tiRx5bezQaNkO-hadhnVVrQHT5kRwCjyLfEDN_qI87s0cJa38jQq3m8VeT4_WmTfHzdKXRELlvlDS029zXHuyG5hkEZCPy9-YZ2FNo6NtwBMB4FkS1mh5fIYjLIXS9trO8TjRjJZXP1V8" />
+              </div>
+              <h4 class="font-serif font-bold text-lg text-ink-primary leading-tight">Finally cracked the API logic!</h4>
+              <p class="text-sm font-serif text-ink-secondary mt-2 line-clamp-2 italic">
+                The authentication flow was tricky, but a simple header fix solved everything.
+              </p>
+              <div class="mt-3 flex flex-wrap gap-1">
+                <span class="text-[10px] uppercase font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">#coding</span>
+                <span class="text-[10px] uppercase font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">#win</span>
+              </div>
+              <span class="polaroid-date">Oct 24</span>
+            </div>
+          </div>
+          <div class="relative pt-4 mt-8 md:mt-0">
+            <div class="pin bg-blue-500"></div>
+            <div class="polaroid-card transform rotate-[1deg]">
+              <div class="aspect-square bg-yellow-50 mb-3 overflow-hidden border border-gray-200 flex items-center justify-center p-4">
+                <p class="font-serif text-xl italic text-ink-primary text-center">"The secret of getting ahead is getting started."</p>
+              </div>
+              <h4 class="font-serif font-bold text-lg text-ink-primary leading-tight">Morning Inspiration</h4>
+              <div class="mt-3 flex flex-wrap gap-1">
+                <span class="text-[10px] uppercase font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded">#quote</span>
+                <span class="text-[10px] uppercase font-bold text-gray-600 bg-gray-100 px-2 py-0.5 rounded">#mindset</span>
+              </div>
+              <span class="polaroid-date">Oct 24</span>
+            </div>
+          </div>
+          <div class="relative pt-4 mt-4 lg:mt-12">
+            <div class="pin bg-green-500"></div>
+            <div class="polaroid-card transform rotate-[-1deg]">
+              <div class="aspect-square bg-gray-100 mb-3 overflow-hidden border border-gray-200">
+                <div class="w-full h-full bg-slate-200 flex items-center justify-center text-slate-400">
+                  <span class="material-symbols-outlined text-4xl">coffee</span>
+                </div>
+              </div>
+              <h4 class="font-serif font-bold text-lg text-ink-primary leading-tight">Coffee break at The Roastery</h4>
+              <p class="text-sm font-serif text-ink-secondary mt-2 line-clamp-2 italic">
+                Best latte in the city. Needed this pause.
+              </p>
+              <div class="mt-3 flex flex-wrap gap-1">
+                <span class="text-[10px] uppercase font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded">#coffee</span>
+                <span class="text-[10px] uppercase font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded">#relax</span>
+              </div>
+              <span class="polaroid-date">Oct 23</span>
+            </div>
+          </div>
+          <div class="relative pt-4 mt-8 xl:mt-2">
+            <div class="pin bg-yellow-500"></div>
+            <div class="polaroid-card transform rotate-[3deg]">
+              <div class="aspect-square bg-white mb-3 overflow-hidden border border-dashed border-gray-300 flex flex-col items-center justify-center p-2">
+                <span class="material-symbols-outlined text-4xl text-gray-300 mb-2">format_quote</span>
+                <p class="font-serif text-sm text-ink-secondary text-center">Reflecting on the quarterly goals. We are ahead of schedule!</p>
+              </div>
+              <h4 class="font-serif font-bold text-lg text-ink-primary leading-tight">Quarterly Review Notes</h4>
+              <div class="mt-3 flex flex-wrap gap-1">
+                <span class="text-[10px] uppercase font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">#planning</span>
+              </div>
+              <span class="polaroid-date">Oct 22</span>
+            </div>
+          </div>
+          <div class="relative pt-4 hidden lg:block">
+            <div class="pin bg-red-400"></div>
+            <div class="polaroid-card transform rotate-[-1deg]">
+              <div class="aspect-square bg-gray-100 mb-3 overflow-hidden border border-gray-200">
+                <div class="w-full h-full bg-emerald-800 flex items-center justify-center text-white/50">
+                  <span class="material-symbols-outlined text-4xl">park</span>
+                </div>
+              </div>
+              <h4 class="font-serif font-bold text-lg text-ink-primary leading-tight">Weekend Hike</h4>
+              <p class="text-sm font-serif text-ink-secondary mt-2 line-clamp-2 italic">
+                Fresh air and elevation gain.
+              </p>
+              <div class="mt-3 flex flex-wrap gap-1">
+                <span class="text-[10px] uppercase font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">#nature</span>
+              </div>
+              <span class="polaroid-date">Oct 21</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-12 text-center pb-8">
+          <button class="inline-flex items-center px-6 py-2 border-2 border-gray-300 rounded-full text-sm font-bold text-ink-secondary hover:border-ink-primary hover:text-ink-primary transition-colors bg-white shadow-sm font-sans uppercase tracking-widest">
+            Load Older Memories
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script>
+    // Simple script to set today's date
+    const dateElement = document.getElementById('current-date');
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+  </script>
+</body>
+</html>
