@@ -1,138 +1,160 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <title>note0214</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 font-sans">
-  <!-- 헤더 -->
-  <header class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-6 shadow-lg">
-    <h1 class="text-center text-3xl font-bold">note0214</h1>
-    <p class="text-center text-sm opacity-80">집중 · 습관 · 기억 · 피드백</p>
-  </header>
+<html class="light" lang="en">
 
-  <!-- 네비게이션 -->
-  <nav class="flex justify-center gap-8 bg-white shadow-md py-4 sticky top-0 z-10">
-    <button class="tab-btn text-indigo-600 font-semibold" data-tab="dashboard">대시보드</button>
-    <button class="tab-btn text-gray-600 hover:text-indigo-600" data-tab="focus">집중</button>
-    <button class="tab-btn text-gray-600 hover:text-indigo-600" data-tab="habit">습관</button>
-    <button class="tab-btn text-gray-600 hover:text-indigo-600" data-tab="memory">기억</button>
-    <button class="tab-btn text-gray-600 hover:text-indigo-600" data-tab="feedback">피드백</button>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartNote Dashboard</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "paper-bg": "#F9F9F7",
+            "paper-card": "#ffffff",
+            "ink-primary": "#2c3e50",
+            "ink-secondary": "#57606f",
+            "accent-blue": "#34495e",
+            "accent-highlight": "#f1c40f",
+            "line-rule": "#e0e0e0",
+            "binder-ring": "#bdc3c7",
+          },
+          fontFamily: {
+            serif: ["Crimson Pro", "serif"],
+            sans: ["Nunito", "sans-serif"]
+          },
+          boxShadow: {
+            paper: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+            floating: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",
+          },
+          backgroundImage: {
+            "lined-paper": "linear-gradient(#e0e0e0 1px, transparent 1px)",
+            "grid-paper": "radial-gradient(#e0e0e0 1px, transparent 1px)"
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #F9F9F7;
+      background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .notebook-tab {
+      position: relative;
+      z-index: 1;
+      transition: all 0.2s ease;
+      border-radius: 8px 8px 0 0;
+      margin-right: 4px;
+      border: 1px solid #e5e7eb;
+      border-bottom: none;
+    }
+
+    .notebook-tab:hover {
+      transform: translateY(-2px);
+    }
+
+    .notebook-tab.active {
+      background-color: #F9F9F7;
+      border-color: #d1d5db;
+      font-weight: 700;
+      z-index: 10;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+    }
+
+    .hand-underline {
+      position: relative;
+      display: inline-block;
+    }
+
+    .hand-underline::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      bottom: -2px;
+      left: 0;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+
+<body class="text-ink-primary font-sans antialiased min-h-screen flex flex-col pt-4">
+
+  <!-- ================= NAV ================= -->
+  <nav class="sticky top-0 z-50 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-end justify-between border-b border-gray-300 bg-white/80 backdrop-blur-sm rounded-t-lg shadow-sm px-4 pt-4">
+
+      <!-- Left -->
+      <div class="flex items-end gap-8 w-full">
+        <div class="flex items-center gap-2 pb-3 mr-4">
+          <span class="material-symbols-outlined text-3xl text-ink-primary">menu_book</span>
+          <span class="font-serif font-bold text-2xl tracking-tight">SmartNote</span>
+        </div>
+
+        <div class="hidden md:flex flex-grow items-end h-full">
+          <a class="notebook-tab active px-6 py-3 font-serif bg-white" href="#">Dashboard</a>
+          <a class="notebook-tab px-6 py-3 font-serif bg-gray-100" href="#">Journal</a>
+          <a class="notebook-tab px-6 py-3 font-serif bg-gray-100" href="#">Planner</a>
+          <a class="notebook-tab px-6 py-3 font-serif bg-gray-100" href="#">Archives</a>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="flex items-center gap-4 pb-3">
+        <button class="relative">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+      </div>
+
+    </div>
   </nav>
 
-  <!-- 컨텐츠 -->
-  <main class="max-w-6xl mx-auto mt-10 px-6">
-    <!-- 대시보드 -->
-    <section id="dashboard" class="tab-content">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
-          <h2 class="text-xl font-semibold text-indigo-600 mb-4">오늘의 집중</h2>
-          <p class="text-gray-700">총 집중 시간: 120분</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
-          <h2 class="text-xl font-semibold text-green-600 mb-4">습관 달성률</h2>
-          <p class="text-gray-700">오늘 달성: 3/5</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
-          <h2 class="text-xl font-semibold text-blue-600 mb-4">기억 요약</h2>
-          <p class="text-gray-700">“오늘은 집중이 잘 되었고, 습관도 꾸준히 이어갔다.”</p>
-        </div>
-        <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition">
-          <h2 class="text-xl font-semibold text-gray-600 mb-4">AI 피드백</h2>
-          <p class="text-gray-700">“오늘의 집중 패턴은 안정적입니다. 내일은 습관을 조금 더 강화해보세요.”</p>
-        </div>
-      </div>
-    </section>
+  <!-- ================= MAIN ================= -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full bg-paper-bg shadow-xl min-h-[calc(100vh-80px)] border-x border-gray-200">
 
-    <!-- 집중 관리 -->
-    <section id="focus" class="tab-content hidden">
-      <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition">
-        <h2 class="text-2xl font-semibold text-indigo-600 mb-6">⏱ 집중 관리</h2>
-        <div class="flex gap-4">
-          <button id="startBtn" class="px-6 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 transition">시작</button>
-          <button id="stopBtn" class="px-6 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-600 transition">종료</button>
+    <!-- Header -->
+    <header class="mb-10 border-b-2 border-dotted border-gray-300 pb-6">
+      <h1 class="text-4xl font-serif font-bold">
+        Good Morning, <span class="hand-underline">Alex</span>
+      </h1>
+      <p class="mt-2 font-serif italic">
+        "The secret of getting ahead is getting started."
+      </p>
+    </header>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+
+      <!-- Focus Log -->
+      <section class="lg:col-span-4 bg-white shadow-paper border p-6">
+        <h2 class="text-xl font-serif font-bold mb-4">Focus Log</h2>
+        <div class="text-center">
+          <span class="text-2xl font-bold">4h 12m</span>
+          <p class="text-sm italic">Recorded</p>
         </div>
-        <div id="timerOutput" class="mt-6 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-gray-700"></div>
-      </div>
-    </section>
+      </section>
 
-    <!-- 습관 형성 -->
-    <section id="habit" class="tab-content hidden">
-      <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition">
-        <h2 class="text-2xl font-semibold text-green-600 mb-6">📌 습관 형성</h2>
-        <div class="flex gap-3">
-          <input type="text" id="habitInput" placeholder="오늘의 습관 입력"
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-400" />
-          <button id="saveHabitBtn" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-700 transition">저장</button>
-        </div>
-        <div id="habitOutput" class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg text-gray-700"></div>
-      </div>
-    </section>
+      <!-- Habit Tracker -->
+      <section class="lg:col-span-8 bg-white shadow-paper border p-6">
+        <h2 class="text-xl font-serif font-bold mb-6">Habit Tracker</h2>
+      </section>
 
-    <!-- 기억 정리 -->
-    <section id="memory" class="tab-content hidden">
-      <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition">
-        <h2 class="text-2xl font-semibold text-blue-600 mb-6">📝 기억 정리</h2>
-        <textarea id="memoryInput" placeholder="오늘 하루를 기록해보세요"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"></textarea>
-        <button id="saveMemoryBtn" class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 transition">저장</button>
-        <div id="memoryOutput" class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-gray-700"></div>
-      </div>
-    </section>
-
-    <!-- 자기 피드백 -->
-    <section id="feedback" class="tab-content hidden">
-      <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition">
-        <h2 class="text-2xl font-semibold text-gray-600 mb-6">🤖 자기 피드백</h2>
-        <textarea id="feedbackInput" placeholder="오늘의 상태를 적어보세요"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"></textarea>
-        <button id="getFeedbackBtn" class="mt-4 px-6 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 transition">피드백 받기</button>
-        <div id="feedbackOutput" class="mt-6 p-4 bg-gray-50 border border-gray-200 rounded-lg text-gray-700"></div>
-      </div>
-    </section>
+    </div>
   </main>
-
-  <script>
-    // 탭 전환
-    const tabs = document.querySelectorAll(".tab-btn");
-    const contents = document.querySelectorAll(".tab-content");
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => {
-        tabs.forEach(t => t.classList.remove("text-indigo-600", "font-semibold"));
-        tab.classList.add("text-indigo-600", "font-semibold");
-        contents.forEach(c => c.classList.add("hidden"));
-        document.getElementById(tab.dataset.tab).classList.remove("hidden");
-      });
-    });
-
-    let startTime;
-
-    // 집중 타이머
-    document.getElementById("startBtn").onclick = () => {
-      startTime = new Date();
-      document.getElementById("timerOutput").innerText = "집중 시작: " + startTime.toLocaleTimeString();
-    };
-    document.getElementById("stopBtn").onclick = () => {
-      if (!startTime) return;
-      const endTime = new Date();
-      const duration = Math.round((endTime - startTime) / 1000);
-      document.getElementById("timerOutput").innerText =
-        "집중 종료: " + endTime.toLocaleTimeString() + " (총 " + duration + "초)";
-      startTime = null;
-    };
-
-    // 습관 기록
-    document.getElementById("saveHabitBtn").onclick = () => {
-      const habit = document.getElementById("habitInput").value;
-      if (!habit) return;
-      document.getElementById("habitOutput").innerText = "오늘 기록된 습관: " + habit;
-      document.getElementById("habitInput").value = "";
-    };
-
-    // 기억 정리
-    document.getElementById("saveMemoryBtn").onclick = () => {
-      const memory = document.getElementById("memoryInput").value;
-      if (!memory) return;
-      document.getElementById("memoryOutput").innerText = "오늘의 기록: " + memory;
-      document.getElementById("memoryInput").value
+</body>
+</html>
