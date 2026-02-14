@@ -3,66 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <title>note0214</title>
-  <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-indigo-50 to-blue-100 min-h-screen font-sans">
+<body class="bg-gray-100 min-h-screen font-sans">
   <!-- 헤더 -->
-  <header class="bg-indigo-600 text-white py-6 shadow-md">
-    <h1 class="text-center text-2xl font-bold tracking-wide">
-      note0214 · 나만의 집중 & 습관 코치
-    </h1>
+  <header class="bg-indigo-600 text-white py-4 shadow-md">
+    <h1 class="text-center text-2xl font-bold">note0214 · 집중·습관·기억·피드백</h1>
   </header>
 
-  <!-- 컨테이너 -->
-  <main class="max-w-2xl mx-auto mt-10 bg-white rounded-xl shadow-lg p-8 space-y-8">
-    
-    <!-- 집중 타이머 -->
-    <section>
-      <h2 class="text-xl font-semibold text-indigo-600 flex items-center gap-2">
-        ⏱ 집중 타이머
-      </h2>
-      <div class="mt-4 flex gap-4">
-        <button id="startBtn" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 transition">
-          시작
-        </button>
-        <button id="stopBtn" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-600 transition">
-          종료
-        </button>
+  <!-- 네비게이션 -->
+  <nav class="bg-white shadow flex justify-around py-3">
+    <button class="tab-btn text-indigo-600 font-semibold" data-tab="focus">집중</button>
+    <button class="tab-btn text-gray-600 hover:text-indigo-600" data-tab="habit">습관</button>
+    <button class="tab-btn text-gray-600 hover:text-indigo-600" data-tab="memory">기억</button>
+    <button class="tab-btn text-gray-600 hover:text-indigo-600" data-tab="feedback">피드백</button>
+  </nav>
+
+  <!-- 컨텐츠 -->
+  <main class="max-w-3xl mx-auto mt-8 bg-white rounded-xl shadow-lg p-6">
+    <!-- 집중 관리 -->
+    <section id="focus" class="tab-content">
+      <h2 class="text-xl font-semibold text-indigo-600 mb-4">⏱ 집중 관리</h2>
+      <div class="flex gap-4">
+        <button id="startBtn" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700">시작</button>
+        <button id="stopBtn" class="px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-600">종료</button>
       </div>
-      <div id="timerOutput" class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-gray-700"></div>
+      <div id="timerOutput" class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg"></div>
     </section>
 
-    <!-- 습관 기록 -->
-    <section>
-      <h2 class="text-xl font-semibold text-indigo-600 flex items-center gap-2">
-        📌 습관 기록
-      </h2>
-      <div class="mt-4 flex gap-2">
+    <!-- 습관 형성 -->
+    <section id="habit" class="tab-content hidden">
+      <h2 class="text-xl font-semibold text-indigo-600 mb-4">📌 습관 형성</h2>
+      <div class="flex gap-2">
         <input type="text" id="habitInput" placeholder="오늘의 습관 입력"
-          class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" />
-        <button id="saveHabitBtn" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 transition">
-          저장
-        </button>
+          class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400" />
+        <button id="saveHabitBtn" class="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700">저장</button>
       </div>
-      <div id="habitOutput" class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-gray-700"></div>
+      <div id="habitOutput" class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg"></div>
     </section>
 
-    <!-- AI 피드백 -->
-    <section>
-      <h2 class="text-xl font-semibold text-indigo-600 flex items-center gap-2">
-        🤖 AI 피드백
-      </h2>
+    <!-- 기억 정리 -->
+    <section id="memory" class="tab-content hidden">
+      <h2 class="text-xl font-semibold text-indigo-600 mb-4">📝 기억 정리</h2>
+      <textarea id="memoryInput" placeholder="오늘 하루를 기록해보세요"
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"></textarea>
+      <button id="saveMemoryBtn" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700">저장</button>
+      <div id="memoryOutput" class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg"></div>
+    </section>
+
+    <!-- 자기 피드백 -->
+    <section id="feedback" class="tab-content hidden">
+      <h2 class="text-xl font-semibold text-indigo-600 mb-4">🤖 자기 피드백</h2>
       <textarea id="feedbackInput" placeholder="오늘의 상태를 적어보세요"
-        class="w-full mt-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"></textarea>
-      <button id="getFeedbackBtn" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 transition">
-        피드백 받기
-      </button>
-      <div id="feedbackOutput" class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg text-gray-700"></div>
+        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-400"></textarea>
+      <button id="getFeedbackBtn" class="mt-4 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700">피드백 받기</button>
+      <div id="feedbackOutput" class="mt-4 p-4 bg-indigo-50 border border-indigo-200 rounded-lg"></div>
     </section>
   </main>
 
   <script>
+    // 탭 전환
+    const tabs = document.querySelectorAll(".tab-btn");
+    const contents = document.querySelectorAll(".tab-content");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("text-indigo-600", "font-semibold"));
+        tab.classList.add("text-indigo-600", "font-semibold");
+        contents.forEach(c => c.classList.add("hidden"));
+        document.getElementById(tab.dataset.tab).classList.remove("hidden");
+      });
+    });
+
     let startTime;
 
     // 집중 타이머
@@ -70,7 +81,6 @@
       startTime = new Date();
       document.getElementById("timerOutput").innerText = "집중 시작: " + startTime.toLocaleTimeString();
     };
-
     document.getElementById("stopBtn").onclick = () => {
       if (!startTime) return;
       const endTime = new Date();
@@ -88,7 +98,15 @@
       document.getElementById("habitInput").value = "";
     };
 
-    // AI 피드백 (FastAPI 호출)
+    // 기억 정리
+    document.getElementById("saveMemoryBtn").onclick = () => {
+      const memory = document.getElementById("memoryInput").value;
+      if (!memory) return;
+      document.getElementById("memoryOutput").innerText = "오늘의 기록: " + memory;
+      document.getElementById("memoryInput").value = "";
+    };
+
+    // AI 피드백
     document.getElementById("getFeedbackBtn").onclick = async () => {
       const text = document.getElementById("feedbackInput").value;
       if (!text) return;
