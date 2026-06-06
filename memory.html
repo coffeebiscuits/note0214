@@ -185,17 +185,20 @@
           <span class="font-serif font-bold text-2xl text-ink-primary tracking-tight">SmartNote</span>
         </div>
         <div class="hidden md:flex flex-grow items-end h-full">
-          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="#">
+          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="index.html">
             Dashboard
           </a>
-          <a class="notebook-tab active px-6 py-3 text-base font-serif text-ink-primary bg-white" href="#">
-            Journal
+          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="./focus">
+            Focus
           </a>
-          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="#">
-            Planner
+          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="./habit">
+            Habit
           </a>
-          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="#">
-            Archives
+          <a class="notebook-tab active px-6 py-3 text-base font-serif text-ink-primary bg-white" href="./memory">
+            Memory
+          </a>
+          <a class="notebook-tab px-6 py-3 text-base font-serif text-ink-secondary bg-gray-100 hover:bg-gray-50" href="./feedback">
+            Feedback
           </a>
         </div>
       </div>
@@ -367,7 +370,6 @@
     </div>
   </main>
   <script>
-    // Simple script to set today's date
     const dateElement = document.getElementById('current-date');
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     dateElement.textContent = new Date().toLocaleDateString('en-US', options);
